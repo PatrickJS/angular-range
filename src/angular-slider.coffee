@@ -15,9 +15,9 @@ offsetLeft      = (element) -> element[0].offsetLeft
 width           = (element) -> element[0].offsetWidth
 gap             = (element1, element2) -> offsetLeft(element2) - offsetLeft(element1) - width(element1)
 bindHtml        = (element, html) -> element.attr 'ng-bind-html-unsafe', html
-roundStep       = (value, precision, step) ->
+roundStep       = (value, precision, step, floor = 0) ->
     step ?= 1 / Math.pow(10, precision)
-    remainder = value % step
+    remainder = (value - floor) % step
     steppedValue =
         if remainder > (step / 2)
         then value + step - remainder
@@ -92,8 +92,8 @@ sliderDirective = ($timeout) ->
                 # roundStep the initial score values
                 scope.precision ?= 0
                 scope.step ?= 1
-                scope[value] = roundStep(parseFloat(scope[value]), parseInt(scope.precision), parseFloat(scope.step)) for value in watchables
-                scope.diff = roundStep(scope[refHigh] - scope[refLow], parseInt(scope.precision), parseFloat(scope.step))
+                scope[value] = roundStep(parseFloat(scope[value]), parseInt(scope.precision), parseFloat(scope.step), parseFloat(scope.floor)) for value in watchables
+                scope.diff = roundStep(scope[refHigh] - scope[refLow], parseInt(scope.precision), parseFloat(scope.step), parseFloat(scope.floor))
                 
                 # Commonly used measurements
                 pointerHalfWidth = halfWidth minPtr
@@ -176,7 +176,7 @@ sliderDirective = ($timeout) ->
                         ngDocument.unbind events.end
                     onMove = (event) ->
                         eventX = event.clientX || event.touches[0].clientX
-                        newOffset = eventX - offsetLeft(element) - halfWidth(pointer)
+                        newOffset = eventX - element[0].getBoundingClientRect().left - pointerHalfWidth
                         newOffset = Math.max(Math.min(newOffset, maxOffset), minOffset)
                         newPercent = percentOffset newOffset
                         newValue = minValue + (valueRange * newPercent / 100.0)
@@ -191,7 +191,7 @@ sliderDirective = ($timeout) ->
                                     ref = refLow 
                                     maxPtr.removeClass 'active'
                                     minPtr.addClass 'active'
-                        newValue = roundStep(newValue, parseInt(scope.precision), parseFloat(scope.step))
+                        newValue = roundStep(newValue, parseInt(scope.precision), parseFloat(scope.step), parseFloat(scope.floor))
                         scope[ref] = newValue
                         scope.$apply()
                     onStart = (event) ->
@@ -218,9 +218,14 @@ sliderDirective = ($timeout) ->
             scope.$watch w, updateDOM for w in watchables
             window.addEventListener "resize", updateDOM
 
+qualifiedDirectiveDefinition = [
+    '$timeout'
+    sliderDirective
+]
+
 module = (window, angular) ->
     angular
         .module(MODULE_NAME, [])
-        .directive(SLIDER_TAG, sliderDirective)
+        .directive(SLIDER_TAG, qualifiedDirectiveDefinition)
 
 module window, window.angular

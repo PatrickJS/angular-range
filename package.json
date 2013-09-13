@@ -1,6 +1,6 @@
 {
   "name": "angular-slider",
-  "version": "0.1.3",
+  "version": "0.1.6",
   "description": "Slider directive implementation for AngularJS, without jQuery dependencies.",
   "main": "angular-slider.js",
   "scripts": {
@@ -20,7 +20,7 @@
     "stylus": "latest",
     "nib": "latest",
     "coffee-script": "latest",
-    "uglifier": "latest",
+    "uglify-js": "latest",
     "jade": "latest"
   },
   "author": "Prajwal K Manjunath",
