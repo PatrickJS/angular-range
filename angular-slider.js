@@ -49,7 +49,7 @@
   };
 
   bindHtml = function(element, html) {
-    return element.attr('ng-bind-html-unsafe', html);
+    return element.attr('ng-bind-html', html);
   };
 
   roundStep = function(value, precision, step, floor) {
@@ -93,26 +93,16 @@
         ngModelHigh: '=?',
         translate: '&'
       },
-      template: '<div><span class="bar"></span><span class="bar selection"></span><span class="pointer"></span><span class="pointer"></span><span class="bubble selection"></span><span ng-bind-html-unsafe="translate({value: floor})" class="bubble limit"></span><span ng-bind-html-unsafe="translate({value: ceiling})" class="bubble limit"></span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span></div>',
+      template: '<span class="bar"></span><span class="bar selection"></span><span class="pointer"></span><span class="pointer"></span><span class="bubble selection"></span><span ng-bind-html="translate({value: floor})" class="bubble limit"></span><span ng-bind-html="translate({value: ceiling})" class="bubble limit"></span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span>',
       compile: function(element, attributes) {
-        var ceilBub, cmbBub, e, flrBub, fullBar, highBub, innerDiv, lowBub, maxPtr, minPtr, range, refHigh, refLow, selBar, selBub, watchables, _i, _len, _ref, _ref1;
+        var ceilBub, cmbBub, e, flrBub, fullBar, highBub, lowBub, maxPtr, minPtr, range, refHigh, refLow, selBar, selBub, watchables, _i, _len, _ref, _ref1;
         if (attributes.translate) {
           attributes.$set('translate', "" + attributes.translate + "(value)");
         }
         range = (attributes.ngModel == null) && ((attributes.ngModelLow != null) && (attributes.ngModelHigh != null));
-        innerDiv = ((function() {
-          var _i, _len, _ref, _results;
-          _ref = element.children();
-          _results = [];
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            e = _ref[_i];
-            _results.push(angularize(e));
-          }
-          return _results;
-        })())[0];
         _ref = (function() {
           var _i, _len, _ref, _results;
-          _ref = innerDiv.children();
+          _ref = element.children();
           _results = [];
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             e = _ref[_i];
@@ -258,8 +248,8 @@
                   return ngDocument.unbind(events.end);
                 };
                 onMove = function(event) {
-                  var eventX, newOffset, newPercent, newValue;
-                  eventX = event.clientX || event.touches[0].clientX;
+                  var eventX, newOffset, newPercent, newValue, _ref2, _ref3, _ref4;
+                  eventX = event.clientX || ((_ref2 = (_ref3 = event.touches) != null ? (_ref4 = _ref3[0]) != null ? _ref4.clientX : void 0 : void 0) != null ? _ref2 : 0);
                   newOffset = eventX - element[0].getBoundingClientRect().left - pointerHalfWidth;
                   newOffset = Math.max(Math.min(newOffset, maxOffset), minOffset);
                   newPercent = percentOffset(newOffset);
