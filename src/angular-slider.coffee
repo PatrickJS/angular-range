@@ -2,6 +2,7 @@
 
 MODULE_NAME = 'uiSlider'
 SLIDER_TAG  = 'slider'
+RANGE_TAG = 'range'
 
 # HELPER FUNCTIONS
 
@@ -37,11 +38,21 @@ inputEvents =
 
 # DIRECTIVE DEFINITION
 
-sliderDirective = ($timeout) ->
+
+sliderDirective = ($timeout)->
     restrict: 'EA'
     scope:
-        floor:       '@'
-        ceiling:     '@'
+      floor:       '@'
+      ceiling:     '@'
+      ngModelRanges: '=?'
+      
+    template: '<div ng-repeat="range in ngModelRanges"><range floor="floor" class="slider" ceiling="ceiling" ng-model-low="range.low" ng-model-high="range.high"/></div>'
+
+rangeDirective = ($timeout) ->
+    restrict: 'EA'
+    scope:
+        floor:       '=?'
+        ceiling:     '=?'
         step:        '@'
         precision:   '@'
         ngModel:     '=?'
@@ -49,6 +60,7 @@ sliderDirective = ($timeout) ->
         ngModelHigh: '=?'
         translate:   '&'
     template: '<span class="bar"></span><span class="bar selection"></span><span class="pointer"></span><span class="pointer"></span><span class="bubble selection"></span><span ng-bind-html-unsafe="translate({value: floor})" class="bubble limit"></span><span ng-bind-html-unsafe="translate({value: ceiling})" class="bubble limit"></span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span>'
+
     compile: (element, attributes) ->
 
         # Expand the translation function abbreviation
@@ -79,7 +91,6 @@ sliderDirective = ($timeout) ->
         watchables.push refHigh if range
 
         post: (scope, element, attributes) ->
-
             boundToInputs = false
             ngDocument = angularize document
             unless attributes.translate
@@ -105,7 +116,7 @@ sliderDirective = ($timeout) ->
                 maxValue = parseFloat attributes.ceiling
 
                 valueRange = maxValue - minValue
-                offsetRange = maxOffset - minOffset                
+                offsetRange = maxOffset - minOffset
 
             updateDOM = ->
                 dimensions()
@@ -118,6 +129,7 @@ sliderDirective = ($timeout) ->
                 # Fit bubble to bar width
                 fitToBar = (element) -> offset element, pixelize(Math.min (Math.max 0, offsetLeft(element)), (barWidth - width(element)))
 
+                console.log(barWidth, fullBar)
                 setPointers = ->
                     offset ceilBub, pixelize(barWidth - width(ceilBub))
                     newLowValue = percentValue scope[refLow]
@@ -217,14 +229,10 @@ sliderDirective = ($timeout) ->
             scope.$watch w, updateDOM for w in watchables
             window.addEventListener "resize", updateDOM
 
-qualifiedDirectiveDefinition = [
-    '$timeout'
-    sliderDirective
-]
-
 module = (window, angular) ->
     angular
         .module(MODULE_NAME, [])
-        .directive(SLIDER_TAG, qualifiedDirectiveDefinition)
+        .directive(RANGE_TAG, ['$timeout', rangeDirective])
+        .directive(SLIDER_TAG, ['$timeout', sliderDirective])
 
 module window, window.angular
