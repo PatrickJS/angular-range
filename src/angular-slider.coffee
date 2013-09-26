@@ -128,7 +128,6 @@ rangeDirective = ($timeout) ->
                 # Fit bubble to bar width
                 fitToBar = (element) -> offset element, pixelize(Math.min (Math.max 0, offsetLeft(element)), (barWidth - width(element)))
 
-                console.log(barWidth, fullBar)
                 setPointers = ->
                     offset ceilBub, pixelize(barWidth - width(ceilBub))
                     newLowValue = percentValue scope[refLow]

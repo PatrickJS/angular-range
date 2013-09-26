@@ -189,7 +189,6 @@
               fitToBar = function(element) {
                 return offset(element, pixelize(Math.min(Math.max(0, offsetLeft(element)), barWidth - width(element))));
               };
-              console.log(barWidth, fullBar);
               setPointers = function() {
                 var newHighValue, newLowValue;
                 offset(ceilBub, pixelize(barWidth - width(ceilBub)));
