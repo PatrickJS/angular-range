@@ -46,15 +46,14 @@
   width: 20px;
   height: 20px;
   top: -8px;
-  background-color: #fff;
-  border: 1px solid #000;
+  background-color: #dfdfdf;
   z-index: 2;
   -webkit-border-radius: 1em/1em;
   border-radius: 1em/1em;
 }
 .slider span.pointer:after {
   content: '';
-  background-color: #808080;
+  background-color: #646464;
   width: 8px;
   height: 8px;
   position: absolute;
@@ -64,7 +63,7 @@
   border-radius: 1em/1em;
 }
 .slider span.pointer:hover:after {
-  background-color: #000;
+  background-color: #9e9e9e;
 }
 .slider span.pointer.active:after {
   background-color: #f00;

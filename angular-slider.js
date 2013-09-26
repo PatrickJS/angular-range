@@ -51,7 +51,7 @@
   };
 
   bindHtml = function(element, html) {
-    return element.attr('ng-bind-html-unsafe', html);
+    return element.attr('ng-bind-html', html);
   };
 
   roundStep = function(value, precision, step, floor) {
@@ -82,7 +82,7 @@
     }
   };
 
-  sliderDirective = function($timeout) {
+  sliderDirective = function() {
     return {
       restrict: 'EA',
       scope: {
@@ -98,8 +98,8 @@
     return {
       restrict: 'EA',
       scope: {
-        floor: '=?',
-        ceiling: '=?',
+        floor: '@',
+        ceiling: '@',
         step: '@',
         precision: '@',
         ngModel: '=?',
@@ -107,7 +107,7 @@
         ngModelHigh: '=?',
         translate: '&'
       },
-      template: '<span class="bar"></span><span class="bar selection"></span><span class="pointer"></span><span class="pointer"></span><span class="bubble selection"></span><span ng-bind-html-unsafe="translate({value: floor})" class="bubble limit"></span><span ng-bind-html-unsafe="translate({value: ceiling})" class="bubble limit"></span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span>',
+      template: '<span class="bar"></span><span class="bar selection"></span><span class="pointer"></span><span class="pointer"></span><span class="bubble selection"></span><span ng-bind-html="translate({value: floor})" class="bubble limit"></span><span ng-bind-html="translate({value: ceiling})" class="bubble limit"></span><span class="bubble"></span><span class="bubble"></span><span class="bubble slider-range-info"></span>',
       compile: function(element, attributes) {
         var ceilBub, cmbBub, e, flrBub, fullBar, highBub, lowBub, maxPtr, minPtr, range, refHigh, refLow, selBar, selBub, watchables, _i, _len, _ref, _ref1;
         if (attributes.translate) {
@@ -166,7 +166,7 @@
               }
               scope.diff = roundStep(scope[refHigh] - scope[refLow], parseInt(scope.precision), parseFloat(scope.step), parseFloat(scope.floor));
               pointerHalfWidth = halfWidth(minPtr);
-              barWidth = width(angularize(element.children()[0]));
+              barWidth = width(fullBar);
               minOffset = 0;
               maxOffset = barWidth - width(minPtr);
               minValue = parseFloat(attributes.floor);
@@ -263,15 +263,15 @@
                   return ngDocument.unbind(events.end);
                 };
                 onMove = function(event) {
-                  var eventX, newOffset, newPercent, newValue;
-                  eventX = event.clientX || event.touches[0].clientX;
+                  var eventX, newOffset, newPercent, newValue, _ref2, _ref3, _ref4;
+                  eventX = event.clientX || ((_ref2 = (_ref3 = event.touches) != null ? (_ref4 = _ref3[0]) != null ? _ref4.clientX : void 0 : void 0) != null ? _ref2 : 0);
                   newOffset = eventX - element[0].getBoundingClientRect().left - pointerHalfWidth;
                   newOffset = Math.max(Math.min(newOffset, maxOffset), minOffset);
                   newPercent = percentOffset(newOffset);
                   newValue = minValue + (valueRange * newPercent / 100.0);
                   if (range) {
                     if (ref === refLow) {
-                      if (newValue > scope[refHigh]) {
+                      if (newValue >= scope[refHigh]) {
                         ref = refHigh;
                         minPtr.removeClass('active');
                         maxPtr.addClass('active');
@@ -332,7 +332,7 @@
   };
 
   module = function(window, angular) {
-    return angular.module(MODULE_NAME, []).directive(RANGE_TAG, ['$timeout', rangeDirective]).directive(SLIDER_TAG, ['$timeout', sliderDirective]);
+    return angular.module(MODULE_NAME, []).directive(RANGE_TAG, ['$timeout', rangeDirective]).directive(SLIDER_TAG, [sliderDirective]);
   };
 
   module(window, window.angular);
