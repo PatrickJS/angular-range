@@ -55,12 +55,16 @@ rangeDirective = ($timeout) ->
         ceiling:     '@'
         step:        '@'
         precision:   '@'
+        rangeInfoTitle: '@'
         ngModel:     '=?'
         ngModelLow:  '=?'
         ngModelHigh: '=?'
         translate:   '&'
     template: '<span class="bar"></span><span class="bar selection"></span><span class="pointer"></span><span class="pointer"></span><span class="bubble selection"></span><span ng-bind-html="translate({value: floor})" class="bubble limit"></span><span ng-bind-html="translate({value: ceiling})" class="bubble limit"></span><span class="bubble"></span><span class="bubble"></span><span class="bubble slider-range-info"></span>'
     compile: (element, attributes) ->
+
+        # Get caption for range info text
+        rangeInfoTitle = if attributes.rangeInfoTitle then attributes.rangeInfoTitle else 'Range'
 
         # Expand the translation function abbreviation
         attributes.$set 'translate', "#{attributes.translate}(value)" if attributes.translate
@@ -76,7 +80,7 @@ rangeDirective = ($timeout) ->
         refLow = if range then 'ngModelLow' else 'ngModel'
         refHigh = 'ngModelHigh'
 
-        bindHtml selBub, "'Range: ' + translate({value: diff})"
+        bindHtml selBub, "'#{rangeInfoTitle}: ' + translate({value: diff})"
         bindHtml lowBub, "translate({value: #{refLow}})"
         bindHtml highBub, "translate({value: #{refHigh}})"
         bindHtml cmbBub, "translate({value: #{refLow}}) + ' - ' + translate({value: #{refHigh}})"

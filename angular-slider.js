@@ -102,6 +102,7 @@
         ceiling: '@',
         step: '@',
         precision: '@',
+        rangeInfoTitle: '@',
         ngModel: '=?',
         ngModelLow: '=?',
         ngModelHigh: '=?',
@@ -109,7 +110,8 @@
       },
       template: '<span class="bar"></span><span class="bar selection"></span><span class="pointer"></span><span class="pointer"></span><span class="bubble selection"></span><span ng-bind-html="translate({value: floor})" class="bubble limit"></span><span ng-bind-html="translate({value: ceiling})" class="bubble limit"></span><span class="bubble"></span><span class="bubble"></span><span class="bubble slider-range-info"></span>',
       compile: function(element, attributes) {
-        var ceilBub, cmbBub, e, flrBub, fullBar, highBub, lowBub, maxPtr, minPtr, range, refHigh, refLow, selBar, selBub, watchables, _i, _len, _ref, _ref1;
+        var ceilBub, cmbBub, e, flrBub, fullBar, highBub, lowBub, maxPtr, minPtr, range, rangeInfoTitle, refHigh, refLow, selBar, selBub, watchables, _i, _len, _ref, _ref1;
+        rangeInfoTitle = attributes.rangeInfoTitle ? attributes.rangeInfoTitle : 'Range';
         if (attributes.translate) {
           attributes.$set('translate', "" + attributes.translate + "(value)");
         }
@@ -126,7 +128,7 @@
         })(), fullBar = _ref[0], selBar = _ref[1], minPtr = _ref[2], maxPtr = _ref[3], selBub = _ref[4], flrBub = _ref[5], ceilBub = _ref[6], lowBub = _ref[7], highBub = _ref[8], cmbBub = _ref[9];
         refLow = range ? 'ngModelLow' : 'ngModel';
         refHigh = 'ngModelHigh';
-        bindHtml(selBub, "'Range: ' + translate({value: diff})");
+        bindHtml(selBub, "'" + rangeInfoTitle + ": ' + translate({value: diff})");
         bindHtml(lowBub, "translate({value: " + refLow + "})");
         bindHtml(highBub, "translate({value: " + refHigh + "})");
         bindHtml(cmbBub, "translate({value: " + refLow + "}) + ' - ' + translate({value: " + refHigh + "})");
