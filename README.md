@@ -1,28 +1,16 @@
 angular-slider
 ==============
 
-Slider directive implementation for AngularJS, without jQuery dependencies. Requires AngularJS v1.1.4 or higher (optional isolate scope bindings support).
+Slider directive implementation for AngularJS, without jQuery dependencies. Requires AngularJS v1.2.0 or higher (optional isolate scope bindings support).
 
 ### Example:
 
-    <ul>
-        <li ng-repeat="item in items">
-            <p>Name: {{item.name}}</p>
-            <p>Cost: {{item.cost}}</p> 
-            <slider floor="100" ceiling="1000" step="50" precision="2" ng-model="item.cost"></slider>
-        </li>
-    </ul>
+
+    <slider class="slider" floor="100" ceiling="1000" step="50" precision="2" ng-model="item.cost"></slider>
 
 ### Range:
 
-    <ul>
-        <li ng-repeat="position in positions">
-            <p>Name: {{position.name}}</p>
-            <p>Minimum Age: {{position.minAge}}</p> 
-            <p>Maximum Age: {{position.maxAge}}</p> 
-            <slider floor="10" ceiling="60" ng-model-low="position.minAge" ng-model-high="position.maxAge"></slider>
-        </li>
-    </ul>
+    <range class="slider" floor="10" ceiling="60" ng-model-low="position.minAge" ng-model-high="position.maxAge" range-info-title="Time range"></range>
 
 ### Formatting:
 
@@ -33,7 +21,7 @@ In your controller:
 
 And your HTML:
 
-    <slider floor="100" ceiling="1000" step="50" precision="2" ng-model="item.cost" translate="currencyFormatting"></slider>
+    <range floor="100" ceiling="1000" step="50" precision="2" ng-model="item.cost" translate="currencyFormatting"></range>
     
 ### Usage:
 
