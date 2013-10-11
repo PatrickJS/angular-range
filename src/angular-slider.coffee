@@ -193,17 +193,18 @@ rangeDirective = ($timeout) ->
                         newOffset = Math.max(Math.min(newOffset, maxOffset), minOffset)
                         newPercent = percentOffset newOffset
                         newValue = minValue + (valueRange * newPercent / 100.0)
+                        #In testing, situations where the pointers cross have sometimes created odd/buggy behavoir
+                        #To prevent this, make it so that the pointers may not get closer than 8% of the slider's total width
                         if range
+                            bufferSize = valueRange * .08
+                            maxLowValue = parseInt(scope[refHigh]) - bufferSize
+                            minHighValue = parseInt(scope[refLow]) + bufferSize
                             if ref is refLow
-                                if newValue >= scope[refHigh]
-                                    ref = refHigh
-                                    minPtr.removeClass 'active'
-                                    maxPtr.addClass 'active'
+                                if newValue > maxLowValue
+                                     newValue = maxLowValue
                             else
-                                if newValue < scope[refLow]
-                                    ref = refLow
-                                    maxPtr.removeClass 'active'
-                                    minPtr.addClass 'active'
+                                if newValue < minHighValue
+                                    newValue = minHighValue
                         newValue = roundStep(newValue, parseInt(scope.precision), parseFloat(scope.step), parseFloat(scope.floor))
                         scope[ref] = newValue
                         scope.$apply()
