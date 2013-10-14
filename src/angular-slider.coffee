@@ -230,7 +230,7 @@ rangeDirective = ($timeout) ->
 
             $timeout updateDOM
             scope.$watch w, updateDOM for w in watchables
-            window.addEventListener "resize", updateDOM
+            $(window).resize(updateDOM);
 
 module = (window, angular) ->
     angular
