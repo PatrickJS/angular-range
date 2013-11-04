@@ -196,7 +196,7 @@ rangeDirective = ($timeout, $window) ->
                         #In testing, situations where the pointers cross have sometimes created odd/buggy behavoir
                         #To prevent this, make it so that the pointers may not get closer than 8% of the slider's total width
                         if range
-                            bufferSize = valueRange * .08
+                            bufferSize = valueRange * .03
                             maxLowValue = parseInt(scope[refHigh]) - bufferSize
                             minHighValue = parseInt(scope[refLow]) + bufferSize
                             if ref is refLow
