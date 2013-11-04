@@ -48,7 +48,7 @@ sliderDirective = ()->
       
     template: '<div ng-repeat="range in ngModelRanges"><range floor="floor" class="slider" ceiling="ceiling" ng-model-low="range.low" ng-model-high="range.high"/></div>'
 
-rangeDirective = ($timeout) ->
+rangeDirective = ($timeout, $window) ->
     restrict: 'EA'
     scope:
         floor:       '@'
@@ -230,12 +230,13 @@ rangeDirective = ($timeout) ->
 
             $timeout updateDOM
             scope.$watch w, updateDOM for w in watchables
-            $(window).resize(updateDOM);
+            $(window).resize updateDOM
+            scope.$on 'UPDATE_SLIDER_DOM', (event) -> updateDOM()
 
 module = (window, angular) ->
     angular
         .module(MODULE_NAME, [])
-        .directive(RANGE_TAG, ['$timeout', rangeDirective])
+        .directive(RANGE_TAG, ['$timeout', '$window', rangeDirective])
         .directive(SLIDER_TAG, [sliderDirective])
 
 module window, window.angular
