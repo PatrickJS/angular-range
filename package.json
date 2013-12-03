@@ -1,18 +1,19 @@
 {
-  "name": "angular-slider",
-  "version": "0.1.6",
-  "description": "Slider directive implementation for AngularJS, without jQuery dependencies.",
-  "main": "angular-slider.js",
+  "name": "angular-range",
+  "version": "0.1.8",
+  "description": "Range and Slider directive implementation for AngularJS, without jQuery dependencies.",
+  "main": "angular-range.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/prajwalkman/angular-slider.git"
+    "url": "https://github.com/gdi2290/angular-range.git"
   },
   "keywords": [
     "angular",
     "slider",
+    "range",
     "jquery",
     "jquery-ui"
   ],
@@ -23,8 +24,7 @@
     "uglify-js": "latest",
     "jade": "latest"
   },
-  "author": "Prajwal K Manjunath",
+  "author": "PatrickJS",
   "license": "MIT",
-  "readmeFilename": "README.md",
-  "gitHead": "428b32578afe6e43813e398c7825a1f36fe93a19"
+  "readmeFilename": "README.md"
 }

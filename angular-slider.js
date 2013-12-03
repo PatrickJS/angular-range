@@ -94,7 +94,7 @@
     };
   };
 
-  rangeDirective = function($timeout) {
+  rangeDirective = function($timeout, $window) {
     return {
       restrict: 'EA',
       scope: {
@@ -271,7 +271,7 @@
                   newPercent = percentOffset(newOffset);
                   newValue = minValue + (valueRange * newPercent / 100.0);
                   if (range) {
-                    bufferSize = valueRange * .08;
+                    bufferSize = valueRange * .03;
                     maxLowValue = parseInt(scope[refHigh]) - bufferSize;
                     minHighValue = parseInt(scope[refLow]) + bufferSize;
                     if (ref === refLow) {
@@ -324,7 +324,10 @@
               w = watchables[_j];
               scope.$watch(w, updateDOM);
             }
-            return $(window).resize(updateDOM);
+            $(window).resize(updateDOM);
+            return scope.$on('UPDATE_SLIDER_DOM', function(event) {
+              return updateDOM();
+            });
           }
         };
       }
@@ -332,7 +335,7 @@
   };
 
   module = function(window, angular) {
-    return angular.module(MODULE_NAME, []).directive(RANGE_TAG, ['$timeout', rangeDirective]).directive(SLIDER_TAG, [sliderDirective]);
+    return angular.module(MODULE_NAME, []).directive(RANGE_TAG, ['$timeout', '$window', rangeDirective]).directive(SLIDER_TAG, [sliderDirective]);
   };
 
   module(window, window.angular);

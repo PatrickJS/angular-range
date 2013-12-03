@@ -1,7 +1,16 @@
-angular-slider
+angular-range
 ==============
 
 Slider directive implementation for AngularJS, without jQuery dependencies. Requires AngularJS v1.2.0 or higher (optional isolate scope bindings support).
+
+
+### Todo:
+* redo repo
+* remove coffeescript
+* add grunt
+* add bower
+
+
 
 ### Example:
 
@@ -22,7 +31,7 @@ In your controller:
 And your HTML:
 
     <range floor="100" ceiling="1000" step="50" precision="2" ng-model="item.cost" translate="currencyFormatting"></range>
-    
+
 ### Usage:
 
 Make sure to load AngularJS first, and then `angular-slider.js`. Also include the related `angular-slider.css`.
@@ -30,7 +39,7 @@ Make sure to load AngularJS first, and then `angular-slider.js`. Also include th
 The module is named `uiSlider`. To enable it, you must simply list it as a dependency in your app. Example:
 
     var app = angular.module('app', ['uiSlider', 'ngResource', ...]);
-    
+
 You can then use it in your templates like so:
 
     <html ng-app='app'>
@@ -43,8 +52,8 @@ You can then use it in your templates like so:
 
 
 ### Known issues:
-  
-1. When applying filters or orders within an ng-repeat directive, the element can abruptly change its position when the value attached to the slider causes a filter to activate or the order to change. 
+
+1. When applying filters or orders within an ng-repeat directive, the element can abruptly change its position when the value attached to the slider causes a filter to activate or the order to change.
 Example: In the above snippet, it would be a very bad idea to order the list by item.cost.
 
 ### Roadmap:
